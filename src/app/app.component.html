@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <div class="task-input">
+    <i class="bi bi-list bi-lg"></i>
+    <input type="text" [(ngModel)]="taskEntered" placeholder="Add a new task" (keyup.enter)="OnTaskEntered()">
+  </div>
+  <div class="controls">
+    <div class="filters">
+      <span #filters *ngFor="let filter of filterListDeclaration, let i= index"
+       [id]="i" (click)="OnFilterSelection(filters)" [class.active]="i==0" >{{filter}} </span>
+    </div>
+    <button class="clear-btn" (click)="OnDeleteAll()">Clear all</button>
+  </div>
+  <ul class="task-box">
+    <li *ngFor="let task of taskList, let i = index" class="task">
+      <label [for]="i">
+        <input type="checkbox" [id]="i" [checked]="task.status!='Pending'" (change)="OnCheckboxClick(i)">
+        <p [class]="task.status!='Pending' ? 'checked': 'unchecked'">{{task.name}}</p>
+      </label>
+      <div class="settings">
+        <i class="bi bi-three-dots"></i>
+        <ul *ngIf="!isEditingMode" class="task-menu">
+          <li (click)="OnTaskEdit(i)" *ngIf="task.status!='Completed'"><i class="bi bi-pencil-square"></i>Edit</li>
+          <li (click)="OnTaskDelete(i)"><i class="bi bi-calendar2-x"></i> Delete</li>
+        </ul>
+      </div>
+    </li>
+
+  </ul>
+</div>
